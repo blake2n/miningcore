@@ -383,7 +383,7 @@ namespace Miningcore.Blockchain.Equihash
 
             if (chainConfig?.PayFoundersReward == true)
             {
-                var founders = blockTemplate.Subsidy.Founders;
+                var founders = blockTemplate.Subsidy.Founders ?? blockTemplate.Subsidy.Community;
 
                 if (!founders.HasValue)
                     throw new Exception("Error, founders reward missing for block template");
