@@ -147,7 +147,7 @@ namespace Miningcore.Payments
                         if (!block.Effort.HasValue)
                             await CalculateBlockEffortAsync(pool, block, handler);
 
-                        switch(block.Status)
+                        switch (block.Status)
                         {
                             case BlockStatus.Confirmed:
                                 // blockchains that do not support block-reward payments via coinbase Tx
@@ -156,7 +156,6 @@ namespace Miningcore.Payments
 
                                 // update share submitter balances through configured payout scheme
                                 await scheme.UpdateBalancesAsync(con, tx, pool, handler, block, blockReward);
-
                                 // finally update block status
                                 await blockRepo.UpdateBlockAsync(con, tx, block);
                                 break;
