@@ -203,8 +203,8 @@ static Equihash<96,3> Eh96_3;
 static Equihash<200,9> Eh200_9;
 static Equihash<96,5> Eh96_5;
 static Equihash<48,5> Eh48_5;
-static Equihash<144, 5> Eh144_5;    // BTG
-static Equihash<192, 7> Eh192_7;    // ZERO
+static Equihash<144,5> Eh144_5;    // BTG
+static Equihash<192,7> Eh192_7;    // ZERO
 
 #define EhInitialiseState(n, k, base_state, personalization)  \
     if (n == 96 && k == 3) {                 \

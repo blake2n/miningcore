@@ -1182,7 +1182,7 @@
         "main": {
           "diff1": "0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
           "solutionSize": 400,
-          "solutionPreambleSize": 1,
+          "solutionPreambleSize": 3,
           "solver": {
             "hash": "equihash",
             "args": [ 192, 7, "ZERO_PoW" ]

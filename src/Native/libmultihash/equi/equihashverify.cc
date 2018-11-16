@@ -3,6 +3,7 @@
 #include "equihashverify.h"
 
 static const char *default_personalization = "ZcashPoW";
+static const char *default_personalization_zero = "ZERO_PoW";
 
 bool verifyEH_96_5(const char *hdr, const std::vector<unsigned char> &soln, const char *personalization)
 {
@@ -79,7 +80,7 @@ bool verifyEH_192_7(const char *hdr, const std::vector<unsigned char> &soln, con
         return false;
 
     if (personalization == NULL)
-        personalization = default_personalization;
+        personalization = default_personalization_zero;
 
     // Hash state
     crypto_generichash_blake2b_state state;
