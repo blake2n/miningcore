@@ -26,6 +26,5 @@ namespace Miningcore.Blockchain.Equihash.DaemonResponses
     {
         public decimal Miner { get; set; }
         public decimal? Founders { get; set; }
-        public decimal? Community { get; set; }
     }
 }
