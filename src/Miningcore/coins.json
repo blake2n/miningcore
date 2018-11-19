@@ -1202,12 +1202,12 @@
             "t3dqSV4YGj5V3WjQhqFGrKTMUf9Tgc6xnJM",
             "t3aJkYT1i6tyytq8J6khPaDNtgZsBSXgfBf"
           ],
-          "foundersRewardSubsidySlowStartInterval": 1,
+          "foundersRewardSubsidySlowStartInterval": 0,
           "foundersRewardSubsidyHalvingInterval": 800000,
-          "overwinterActivationHeight": 555000,
+          "overwinterActivationHeight": 492850,
           "overwinterTxVersion": 3,
           "overwinterTxVersionGroupId": 63210096,
-          "saplingActivationHeight": 555500,
+          "saplingActivationHeight": 492850,
           "saplingTxVersion": 4,
           "saplingTxVersionGroupId": 2301567109
         },
@@ -1234,12 +1234,12 @@
             "t2LYZj3LiCDaCGUXQNXH1ZFPmHiC46wB9se",
             "t28azskSALVTtgbW63CqDwzXgtWQ56GVVXa"
           ],
-          "foundersRewardSubsidySlowStartInterval": 20000,
-          "foundersRewardSubsidyHalvingInterval": 840000,
-          "overwinterActivationHeight": 100,
+          "foundersRewardSubsidySlowStartInterval": 0,
+          "foundersRewardSubsidyHalvingInterval": 800000,
+          "overwinterActivationHeight": 50,
           "overwinterTxVersion": 3,
           "overwinterTxVersionGroupId": 63210096,
-          "saplingActivationHeight": 200,
+          "saplingActivationHeight": 50,
           "saplingTxVersion": 4,
           "saplingTxVersionGroupId": 2301567109
         },
