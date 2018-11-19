@@ -336,12 +336,14 @@ namespace Miningcore.Blockchain.Equihash
 
             // ZCash Sapling & Overwinter support
             isSaplingActive = chainConfig.SaplingActivationHeight.HasValue &&
+                chainConfig.SaplingTxBranchId.HasValue &&
                 chainConfig.SaplingTxVersion.HasValue &&
                 chainConfig.SaplingTxVersionGroupId.HasValue &&
                 chainConfig.SaplingActivationHeight.Value > 0 &&
                 blockTemplate.Height >= chainConfig.SaplingActivationHeight.Value;
 
             isOverwinterActive = isSaplingActive ||
+                chainConfig.OverwinterTxBranchId.HasValue &&
                 chainConfig.OverwinterTxVersion.HasValue &&
                 chainConfig.OverwinterTxVersionGroupId.HasValue &&
                 chainConfig.OverwinterActivationHeight.HasValue &&
