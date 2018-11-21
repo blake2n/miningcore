@@ -1269,9 +1269,9 @@
       },
       "usesZCashAddressFormat": true,
       "useBitcoinPayoutHandler": false,
-      "explorerBlockLink": "https://insight.cryptonode.cloud/insight/block/$hash$",
-      "explorerTxLink": "https://insight.cryptonode.cloud/insight/tx/{0}",
-      "explorerAccountLink": "https://insight.cryptonode.cloud/insight/address/{0}"
+      "explorerBlockLink": "https://zero.cryptonode.cloud/insight/block/$hash$",
+      "explorerTxLink": "https://zero.cryptonode.cloud/insight/tx/{0}",
+      "explorerAccountLink": "https://zero.cryptonode.cloud/insight/address/{0}"
     },
     "bitcoin-private": {
       "name": "Bitcoin Private",
