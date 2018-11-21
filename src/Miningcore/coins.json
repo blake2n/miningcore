@@ -1207,7 +1207,7 @@
             "t3aJkYT1i6tyytq8J6khPaDNtgZsBSXgfBf"
           ],
           "foundersRewardSubsidySlowStartInterval": 0,
-          "foundersRewardSubsidyHalvingInterval": 800000,
+          "foundersRewardSubsidyHalvingInterval": 8000000,
           "overwinterActivationHeight": 492850,
           "overwinterTxBranchId": 1870033530,
           "overwinterTxVersion": 3,
@@ -1241,7 +1241,7 @@
             "t28azskSALVTtgbW63CqDwzXgtWQ56GVVXa"
           ],
           "foundersRewardSubsidySlowStartInterval": 0,
-          "foundersRewardSubsidyHalvingInterval": 800000,
+          "foundersRewardSubsidyHalvingInterval": 30000,
           "overwinterTxBranchId": 1870033530,
           "overwinterActivationHeight": 50,
           "overwinterTxVersion": 3,
