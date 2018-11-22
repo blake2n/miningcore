@@ -4,6 +4,7 @@
 
 static const char *default_personalization = "ZcashPoW";
 static const char *default_personalization_zero = "ZERO_PoW";
+static const char *default_personalization_aion = "AION0PoW";
 
 bool verifyEH_96_5(const char *hdr, const std::vector<unsigned char> &soln, const char *personalization)
 {
@@ -89,6 +90,28 @@ bool verifyEH_192_7(const char *hdr, const std::vector<unsigned char> &soln, con
     crypto_generichash_blake2b_update(&state, (const unsigned char*)hdr, 140);
 
     bool isValid = Eh192_7.IsValidSolution(state, soln);
+
+    return isValid;
+}
+
+bool verifyEH_210_9(const char *hdr, const std::vector<unsigned char> &soln, const char *personalization)
+{
+    unsigned int n = 210;
+    unsigned int k = 9;
+
+    if (soln.size() != 1408)
+        return false;
+
+    if (personalization == NULL)
+        personalization = default_personalization_aion;
+
+    // Hash state
+    crypto_generichash_blake2b_state state;
+    EhInitialiseState(n, k, state, personalization);
+
+    crypto_generichash_blake2b_update(&state, (const unsigned char*)hdr, 140);
+
+    bool isValid = Eh210_9.IsValidSolution(state, soln);
 
     return isValid;
 }

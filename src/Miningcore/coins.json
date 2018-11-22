@@ -1382,5 +1382,28 @@
       },
       "explorerTxLink": "https://gastracker.io/tx/{0}",
       "explorerAccountLink": "https://gastracker.io/addr/{0}"
+    },
+    "aion": {
+      "name": "Aion Network",
+      "symbol": "AION",
+      "family": "equihash",
+      "networks": {
+        "main": {
+          "diff1": "0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "solutionSize": 1408,
+          "solutionPreambleSize": 3,
+          "solver": {
+            "hash": "equihash",
+            "args": [ 210, 9, "AION0PoW" ]
+          },
+          "coinbaseTxNetwork": "main",
+          "payFoundersReward": false
+        }
+      },
+      "usesZCashAddressFormat": false,
+      "useBitcoinPayoutHandler": true,
+      "explorerBlockLink": "https://mainnet.aion.network/#/block/$hash$",
+      "explorerTxLink": "https://mainnet.aion.network/#/transaction/{0}",
+      "explorerAccountLink": "https://mainnet.aion.network/#/account/{0}"
     }
   }

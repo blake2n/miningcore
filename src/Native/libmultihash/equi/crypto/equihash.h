@@ -205,6 +205,7 @@ static Equihash<96,5> Eh96_5;
 static Equihash<48,5> Eh48_5;
 static Equihash<144,5> Eh144_5;    // BTG
 static Equihash<192,7> Eh192_7;    // ZERO
+static Equihash<210,9> Eh210_9;    // AION
 
 #define EhInitialiseState(n, k, base_state, personalization)  \
     if (n == 96 && k == 3) {                 \
@@ -219,6 +220,8 @@ static Equihash<192,7> Eh192_7;    // ZERO
         Eh144_5.InitialiseState(base_state, personalization);  \
     } else if (n == 192 && k == 7) {          \
         Eh192_7.InitialiseState(base_state, personalization);  \
+    } else if (n == 210 && k == 9) {          \
+        Eh210_9.InitialiseState(base_state, personalization);  \
     } else {                                 \
         throw std::invalid_argument("Unsupported Equihash parameters"); \
     }
@@ -238,6 +241,8 @@ inline bool EhBasicSolve(unsigned int n, unsigned int k, const eh_HashState& bas
         return Eh48_5.BasicSolve(base_state, validBlock, cancelled);
     } else if (n == 192 && k == 7) {
         return Eh192_7.BasicSolve(base_state, validBlock, cancelled);
+    } else if (n == 210 && k == 9) {
+        return Eh210_9.BasicSolve(base_state, validBlock, cancelled);
     } else {
         throw std::invalid_argument("Unsupported Equihash parameters");
     }
@@ -264,6 +269,8 @@ inline bool EhOptimisedSolve(unsigned int n, unsigned int k, const eh_HashState&
         return Eh48_5.OptimisedSolve(base_state, validBlock, cancelled);
     } else if (n == 192 && k == 7) {
         return Eh192_7.OptimisedSolve(base_state, validBlock, cancelled);
+    } else if (n == 210 && k == 9) {
+        return Eh210_9.OptimisedSolve(base_state, validBlock, cancelled);
     } else {
         throw std::invalid_argument("Unsupported Equihash parameters");
     }
@@ -288,6 +295,8 @@ inline bool EhOptimisedSolveUncancellable(unsigned int n, unsigned int k, const 
         ret = Eh48_5.IsValidSolution(base_state, soln);  \
     } else if (n == 192 && k == 7) {                      \
         ret = Eh192_7.IsValidSolution(base_state, soln);  \
+    } else if (n == 210 && k == 9) {                      \
+        ret = Eh210_9.IsValidSolution(base_state, soln);  \
     } else {                                             \
         throw std::invalid_argument("Unsupported Equihash parameters"); \
     }
