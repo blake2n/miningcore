@@ -18,6 +18,7 @@
 - POW (proof-of-work) & POS (proof-of-stake) support
 - Detailed per-pool logging to console & filesystem
 - Runs on Linux and Windows
+- Extended API
 
 ### Supported Coins
 
