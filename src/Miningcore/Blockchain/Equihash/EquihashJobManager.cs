@@ -155,6 +155,8 @@ namespace Miningcore.Blockchain.Equihash
                             else
                                 logger.Info(() => $"Detected new block {blockTemplate.Height}");
 
+                            logger.Info(() => $"Zeronode Payee {blockTemplate.Height}");
+
                             validJobs.Clear();
 
                             // update stats

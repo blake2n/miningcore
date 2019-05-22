@@ -49,6 +49,8 @@ namespace Miningcore.Blockchain.Equihash
         protected EquihashCoinTemplate coin;
         protected Network network;
 
+        protected PayeeBlockTemplateExtra payeeParameters;
+
         protected IDestination poolAddressDestination;
         protected readonly HashSet<string> submissions = new HashSet<string>();
         protected uint256 blockTargetValue;
@@ -146,6 +148,25 @@ namespace Miningcore.Blockchain.Equihash
             return tx;
         }
 
+        protected virtual Transaction CreatePayeeOutputTransaction()
+        {
+            rewardToPool = new Money(BlockTemplate.CoinbaseValue, MoneyUnit.Satoshi);
+
+            var tx = Transaction.Create(network);
+
+            if(payeeParameters?.PayeeAmount > 0)
+            {
+                var payeeReward = new Money(payeeParameters.PayeeAmount.Value, MoneyUnit.Satoshi);
+                rewardToPool -= payeeReward;
+
+                tx.Outputs.Add(payeeReward, BitcoinUtils.AddressToDestination(payeeParameters.Payee, network));
+            }
+
+            tx.Outputs.Insert(0, new TxOut(rewardToPool, poolAddressDestination));
+
+            return tx;
+        }
+
         private string GetTreasuryRewardAddress()
         {
             var index = (int)Math.Floor((BlockTemplate.Height - chainConfig.TreasuryRewardStartBlockHeight) /
@@ -206,6 +227,12 @@ namespace Miningcore.Blockchain.Equihash
                 return stream.ToArray();
             }
         }
+
+        #region Zeronodes
+
+        protected ZeroNodeBlockTemplateExtra zeroNodeParameters;
+
+        #endregion // Zeronodes
 
         private byte[] SerializeBlock(Span<byte> header, Span<byte> coinbase, Span<byte> solution)
         {
@@ -337,6 +364,13 @@ namespace Miningcore.Blockchain.Equihash
             JobId = jobId;
             Difficulty = (double) new BigRational(chainConfig.Diff1BValue, BlockTemplate.Target.HexToReverseByteArray().AsSpan().ToBigInteger());
 
+            // Zeronodes
+            if(coin.HasZeroNodes)
+                zeroNodeParameters = BlockTemplate.Extra.SafeExtensionDataAs<ZeroNodeBlockTemplateExtra>();
+            if(coin.HasPayee)
+                payeeParameters = BlockTemplate.Extra.SafeExtensionDataAs<PayeeBlockTemplateExtra>();
+
+
             // ZCash Sapling & Overwinter support
             isSaplingActive = chainConfig.SaplingActivationHeight.HasValue &&
                 chainConfig.SaplingTxBranchId.HasValue &&
@@ -396,6 +430,13 @@ namespace Miningcore.Blockchain.Equihash
                     throw new Exception("Error, founders reward missing for block template");
 
                 blockReward = (blockTemplate.Subsidy.Miner + founders.Value) * BitcoinConstants.SatoshisPerBitcoin;
+            }
+
+            if (coin?.HasZeroNodes == true)
+            {
+                var zeroNodeReward = 0;
+                // calculate zeronode rewards here
+                blockReward = blockReward - zeroNodeReward;
             }
 
             rewardFees = blockTemplate.Transactions.Sum(x => x.Fee);
