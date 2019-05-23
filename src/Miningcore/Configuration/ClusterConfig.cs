@@ -166,9 +166,6 @@ namespace Miningcore.Configuration
             public bool PayFoundersReward { get; set; }
 
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-            public bool EnforceZeroNodeReward { get; set; }
-
-            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
             public decimal PercentFoundersReward { get; set; }
 
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -655,6 +652,11 @@ namespace Miningcore.Configuration
         public int ClientConnectionTimeout { get; set; }
         public int JobRebroadcastTimeout { get; set; }
         public int BlockRefreshInterval { get; set; }
+
+        /// <summary>
+        /// Used to generate blocks with ZeroNodePayee while network enforment is disabled
+        /// </summary>
+        public bool? ZeroNodeEnforcementOverride { get; set; }
 
         /// <summary>
         /// If true, internal stratum ports are not initialized

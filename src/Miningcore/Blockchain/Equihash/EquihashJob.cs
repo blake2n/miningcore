@@ -126,14 +126,35 @@ namespace Miningcore.Blockchain.Equihash
 
                 else
                 {
-                    // pool reward (t-addr)
-                    rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) + rewardFees, MoneyUnit.Satoshi);
-                    tx.Outputs.Add(rewardToPool, poolAddressDestination);
+                    //zeronodes
+                    if (coin.HasZeroNodes)
+                    {
+                       // pool reward (t-addr)
+                       rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) - BlockTemplate.ZeroNodePayeeAmount + rewardFees, MoneyUnit.Satoshi);
+                       tx.Outputs.Add(rewardToPool, poolAddressDestination);
 
-                    // founders reward (t-addr)
-                    var destination = FoundersAddressToScriptDestination(GetFoundersRewardAddress());
-                    var amount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
-                    tx.Outputs.Add(amount, destination);
+                       // founders reward (t-addr)
+                       var destination = FoundersAddressToScriptDestination(GetFoundersRewardAddress());
+                       var amount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
+                       tx.Outputs.Add(amount, destination);
+
+                       // zeronode reward (t-addr)
+                       var nodedestination = ZeroNodeAddressToScriptDestination(BlockTemplate.ZeroNodePayee);
+                       var nodeamount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
+                       tx.Outputs.Add(nodeamount, nodedestination);
+
+                    }
+                    else
+                    {
+                       // pool reward (t-addr)
+                       rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) + rewardFees, MoneyUnit.Satoshi);
+                       tx.Outputs.Add(rewardToPool, poolAddressDestination);
+
+                       // founders reward (t-addr)
+                       var destination = FoundersAddressToScriptDestination(GetFoundersRewardAddress());
+                       var amount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
+                       tx.Outputs.Add(amount, destination);
+                    }
                 }
             }
 
@@ -533,6 +554,15 @@ namespace Miningcore.Blockchain.Equihash
             var result = new ScriptId(hash);
             return result;
         }
+
+        public static IDestination ZeroNodeAddressToScriptDestination(string address)
+        {
+            var decoded = Encoders.Base58.DecodeData(address);
+            var hash = decoded.Skip(2).Take(20).ToArray();
+            var result = new ScriptId(hash);
+            return result;
+        }
+
 
         #endregion // API-Surface
     }
