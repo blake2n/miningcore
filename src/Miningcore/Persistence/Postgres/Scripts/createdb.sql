@@ -1,4 +1,4 @@
-﻿set role miningcore;
+SET ROLE miningcore;
 
 CREATE TABLE shares
 (
@@ -48,7 +48,7 @@ CREATE TABLE balances
 	created TIMESTAMP NOT NULL,
 	updated TIMESTAMP NOT NULL,
 
-	primary key(poolid, address, coin)
+	primary key(poolid, address)
 );
 
 CREATE TABLE balance_changes
@@ -109,3 +109,4 @@ CREATE INDEX IDX_MINERSTATS_POOL_CREATED on minerstats(poolid, created);
 CREATE INDEX IDX_MINERSTATS_POOL_MINER_CREATED on minerstats(poolid, miner, created);
 CREATE INDEX IDX_MINERSTATS_POOL_MINER_CREATED_HOUR on minerstats(poolid, miner, date_trunc('hour',created));
 CREATE INDEX IDX_MINERSTATS_POOL_MINER_CREATED_DAY on minerstats(poolid, miner, date_trunc('day',created));
+CREATE INDEX IDX_MINERSTATS_POOL_MINER_WORKER_CREATED_HASHRATE on minerstats(poolid,miner,worker,created desc,hashrate);
