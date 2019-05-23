@@ -231,9 +231,6 @@ namespace Miningcore.Configuration
         /// </summary>
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool HasPayee { get; set; }
-
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool HasZeroNodes { get; set; }
 
         public bool UseBitcoinPayoutHandler { get; set; }
@@ -652,11 +649,6 @@ namespace Miningcore.Configuration
         public int ClientConnectionTimeout { get; set; }
         public int JobRebroadcastTimeout { get; set; }
         public int BlockRefreshInterval { get; set; }
-
-        /// <summary>
-        /// Used to generate blocks with ZeroNodePayee while network enforment is disabled
-        /// </summary>
-        public bool? ZeroNodeEnforcementOverride { get; set; }
 
         /// <summary>
         /// If true, internal stratum ports are not initialized

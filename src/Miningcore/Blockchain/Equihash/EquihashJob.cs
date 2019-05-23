@@ -49,8 +49,6 @@ namespace Miningcore.Blockchain.Equihash
         protected EquihashCoinTemplate coin;
         protected Network network;
 
-        protected PayeeBlockTemplateExtra payeeParameters;
-
         protected IDestination poolAddressDestination;
         protected readonly HashSet<string> submissions = new HashSet<string>();
         protected uint256 blockTargetValue;
@@ -127,7 +125,7 @@ namespace Miningcore.Blockchain.Equihash
                 else
                 {
                     //zeronodes
-                    if (coin.HasZeroNodes)
+                    if (coin.HasZeroNodes && BlockTemplate.ZeroNodePaymentsEnabled && BlockTemplate.ZeroNodePaymentsEnforced)
                     {
                        // pool reward (t-addr)
                        rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) - BlockTemplate.ZeroNodePayeeAmount + rewardFees, MoneyUnit.Satoshi);
@@ -140,7 +138,7 @@ namespace Miningcore.Blockchain.Equihash
 
                        // zeronode reward (t-addr)
                        var nodedestination = ZeroNodeAddressToScriptDestination(BlockTemplate.ZeroNodePayee);
-                       var nodeamount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
+                       var nodeamount = new Money(BlockTemplate.ZeroNodePayeeAmount, MoneyUnit.Satoshi);
                        tx.Outputs.Add(nodeamount, nodedestination);
 
                     }
@@ -165,25 +163,6 @@ namespace Miningcore.Blockchain.Equihash
                 rewardToPool = new Money(blockReward + rewardFees, MoneyUnit.Satoshi);
                 tx.Outputs.Add(rewardToPool, poolAddressDestination);
             }
-
-            return tx;
-        }
-
-        protected virtual Transaction CreatePayeeOutputTransaction()
-        {
-            rewardToPool = new Money(BlockTemplate.CoinbaseValue, MoneyUnit.Satoshi);
-
-            var tx = Transaction.Create(network);
-
-            if(payeeParameters?.PayeeAmount > 0)
-            {
-                var payeeReward = new Money(payeeParameters.PayeeAmount.Value, MoneyUnit.Satoshi);
-                rewardToPool -= payeeReward;
-
-                tx.Outputs.Add(payeeReward, BitcoinUtils.AddressToDestination(payeeParameters.Payee, network));
-            }
-
-            tx.Outputs.Insert(0, new TxOut(rewardToPool, poolAddressDestination));
 
             return tx;
         }
@@ -248,12 +227,6 @@ namespace Miningcore.Blockchain.Equihash
                 return stream.ToArray();
             }
         }
-
-        #region Zeronodes
-
-        protected ZeroNodeBlockTemplateExtra zeroNodeParameters;
-
-        #endregion // Zeronodes
 
         private byte[] SerializeBlock(Span<byte> header, Span<byte> coinbase, Span<byte> solution)
         {
@@ -385,13 +358,6 @@ namespace Miningcore.Blockchain.Equihash
             JobId = jobId;
             Difficulty = (double) new BigRational(chainConfig.Diff1BValue, BlockTemplate.Target.HexToReverseByteArray().AsSpan().ToBigInteger());
 
-            // Zeronodes
-            if(coin.HasZeroNodes)
-                zeroNodeParameters = BlockTemplate.Extra.SafeExtensionDataAs<ZeroNodeBlockTemplateExtra>();
-            if(coin.HasPayee)
-                payeeParameters = BlockTemplate.Extra.SafeExtensionDataAs<PayeeBlockTemplateExtra>();
-
-
             // ZCash Sapling & Overwinter support
             isSaplingActive = chainConfig.SaplingActivationHeight.HasValue &&
                 chainConfig.SaplingTxBranchId.HasValue &&
@@ -451,13 +417,6 @@ namespace Miningcore.Blockchain.Equihash
                     throw new Exception("Error, founders reward missing for block template");
 
                 blockReward = (blockTemplate.Subsidy.Miner + founders.Value) * BitcoinConstants.SatoshisPerBitcoin;
-            }
-
-            if (coin?.HasZeroNodes == true)
-            {
-                var zeroNodeReward = 0;
-                // calculate zeronode rewards here
-                blockReward = blockReward - zeroNodeReward;
             }
 
             rewardFees = blockTemplate.Transactions.Sum(x => x.Fee);
@@ -555,12 +514,10 @@ namespace Miningcore.Blockchain.Equihash
             return result;
         }
 
-        public static IDestination ZeroNodeAddressToScriptDestination(string address)
+        public static IDestination ZeroNodeAddressToScriptDestination(string nodeaddress)
         {
-            var decoded = Encoders.Base58.DecodeData(address);
-            var hash = decoded.Skip(2).Take(20).ToArray();
-            var result = new ScriptId(hash);
-            return result;
+            var zeronodeaddressresult = BitcoinUtils.AddressToDestination(nodeaddress, ZcashNetworks.Instance.Mainnet);
+            return zeronodeaddressresult;
         }
 
 

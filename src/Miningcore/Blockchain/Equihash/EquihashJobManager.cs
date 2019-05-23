@@ -159,12 +159,8 @@ namespace Miningcore.Blockchain.Equihash
                             if (coin.HasZeroNodes)
                             {
                                logger.Debug(() => $"coin HasZeroNodes {coin.HasZeroNodes}");
-                               logger.Debug(() => $"coin HasPayee {coin.HasPayee}");
-                               logger.Debug(() => $"Pool ZeroNode Enforement Override {poolConfig.ZeroNodeEnforcementOverride}");
                                logger.Debug(() => $"Zeronode Payee {blockTemplate.ZeroNodePayee}");
                                logger.Debug(() => $"Zeronode Payee Amount {blockTemplate.ZeroNodePayeeAmount}");
-                               logger.Debug(() => $"Zeronode Payments Enabled {blockTemplate.ZeroNodePaymentsEnabled}");
-                               logger.Debug(() => $"Zeronode Payments Enforced {blockTemplate.ZeroNodePaymentsEnforced}");
                             }
 
                             validJobs.Clear();
