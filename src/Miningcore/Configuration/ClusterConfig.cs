@@ -166,6 +166,9 @@ namespace Miningcore.Configuration
             public bool PayFoundersReward { get; set; }
 
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+            public bool EnforceZeroNodeReward { get; set; }
+
+            [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
             public decimal PercentFoundersReward { get; set; }
 
             [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
