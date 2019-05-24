@@ -4,7 +4,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/coinfoundry/miningcore-docker.svg)]()
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
-### Features Zero
+### Features Zero-Varient
 
 - Supports clusters of pools each running individual currencies
 - Ultra-low-latency, multi-threaded Stratum implementation using asynchronous I/O
