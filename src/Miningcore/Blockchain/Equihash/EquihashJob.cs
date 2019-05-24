@@ -144,14 +144,35 @@ namespace Miningcore.Blockchain.Equihash
                     }
                     else
                     {
-                       // pool reward (t-addr)
-                       rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) + rewardFees, MoneyUnit.Satoshi);
-                       tx.Outputs.Add(rewardToPool, poolAddressDestination);
+                       if (coin.HasZeroNodes && BlockTemplate.ZeroNodePaymentsEnabled)
+                       {
+                          // assuming zero is run with this varient this allow for zeronodes to be paid a trickle before enforement
+                          var trickle = 10000L;
+                          // pool reward (t-addr)
+                          rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) - trickle + rewardFees, MoneyUnit.Satoshi);
+                          tx.Outputs.Add(rewardToPool, poolAddressDestination);
 
-                       // founders reward (t-addr)
-                       var destination = FoundersAddressToScriptDestination(GetFoundersRewardAddress());
-                       var amount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
-                       tx.Outputs.Add(amount, destination);
+                          // founders reward (t-addr)
+                          var destination = FoundersAddressToScriptDestination(GetFoundersRewardAddress());
+                          var amount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
+                          tx.Outputs.Add(amount, destination);
+
+                          // zeronode reward (t-addr)
+                          var nodedestination = ZeroNodeAddressToScriptDestination(BlockTemplate.ZeroNodePayee);
+                          var nodeamount = new Money(trickle, MoneyUnit.Satoshi);
+                          tx.Outputs.Add(nodeamount, nodedestination);
+                       }
+                       else
+                       {
+                          // pool reward (t-addr)
+                          rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) + rewardFees, MoneyUnit.Satoshi);
+                          tx.Outputs.Add(rewardToPool, poolAddressDestination);
+
+                          // founders reward (t-addr)
+                          var destination = FoundersAddressToScriptDestination(GetFoundersRewardAddress());
+                          var amount = new Money(Math.Round(blockReward * (chainConfig.PercentFoundersReward / 100m)), MoneyUnit.Satoshi);
+                          tx.Outputs.Add(amount, destination);
+                       }
                     }
                 }
             }
