@@ -19,6 +19,11 @@
 - Detailed per-pool logging to console & filesystem
 - Runs on Linux and Windows
 
+### Zeronode Enforment options
+- When zeronodes are enabled a the block subsity for masternodes will be a trickle.  Less than one day before the masternode enforcement blockheight a spork will be enabled on the zeronode network changing the zeronode payout amount to 7.83POW 2.16 POS.
+- Due the spork zeronodes will receive reward according to the live zero 3.0x daemon blocktemplate used on the cummunity pool.
+- If you are using this privately and don't wish to pay anything to zeronodes until the enforcement is enabled change src/Miningcore/Blockchain/Equihash/Equihashjob.cs @line 128 to "if (coin.HasZeroNodes && BlockTemplate.ZeroNodePaymentsEnabled && BlockTemplate.ZeroNodePaymentsEnforced)"
+
 ### Supported Coins
 
 Refer to [this file](https://github.com/coinfoundry/miningcore/blob/master/src/Miningcore/coins.json) for a complete list.

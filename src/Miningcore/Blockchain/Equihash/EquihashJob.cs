@@ -125,7 +125,7 @@ namespace Miningcore.Blockchain.Equihash
                 else
                 {
                     //zeronodes
-                    if (coin.HasZeroNodes && BlockTemplate.ZeroNodePaymentsEnabled && BlockTemplate.ZeroNodePaymentsEnforced)
+                    if (coin.HasZeroNodes && BlockTemplate.ZeroNodePaymentsEnabled)
                     {
                        // pool reward (t-addr)
                        rewardToPool = new Money(Math.Round(blockReward * (1m - (chainConfig.PercentFoundersReward) / 100m)) - BlockTemplate.ZeroNodePayeeAmount + rewardFees, MoneyUnit.Satoshi);
