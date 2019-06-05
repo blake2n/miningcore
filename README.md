@@ -5,7 +5,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 ### Features Zero
-
+- FOR OLD SERVERS
 - Supports clusters of pools each running individual currencies
 - Ultra-low-latency, multi-threaded Stratum implementation using asynchronous I/O
 - Adaptive share difficulty ("vardiff")
